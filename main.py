@@ -1,8 +1,9 @@
 import pygame
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import ASTEROID_SCORE, SCREEN_WIDTH, SCREEN_HEIGHT
 from player import Player
+from score import Score
 from shot import Shot
 
 def main():
@@ -18,6 +19,8 @@ def main():
 
     player = Player(x=SCREEN_WIDTH/2, y=SCREEN_HEIGHT/2)
     AsteroidField()
+
+    score = Score()
     
     delta_time = 0
     while True:
@@ -37,6 +40,7 @@ def main():
                 return
             for shot in shots:
                 if asteroid.collides_with(shot):
+                    score.add_score(ASTEROID_SCORE)
                     asteroid.split()
                     shot.kill()
 
@@ -59,6 +63,7 @@ def setup_groups():
     Asteroid.containers = (updatable, drawable, asteroids)
     AsteroidField.containers = (updatable)
     Shot.containers = (updatable, drawable, shots)
+    Score.containers = (drawable)
 
     return updatable, drawable, asteroids, shots
 
